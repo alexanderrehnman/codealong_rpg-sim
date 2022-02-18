@@ -1,45 +1,50 @@
-#imports
-#global variables
-#classes
+# imports
+# global variables
+# classes
 class Character:
-
-    def __init__(self,name, health, damage, armor  ):
+    
+    def __init__(self, name, health, damage, armor):
         self.name = name
         self.health = health
         self.damage = damage
         self.armor = armor
-
+    
     def __str__(self):
-        return f"name: {self.name} \nHealth:{self.health}\nDamage:{self.damage}\nArmor{self.armor}  "
-        
-    def take_damage(self,dmg):
-        actual_damage = dmg - self.armor
-        if (self.health - actual_damage) < 0:
-            self.health= 0
-        else: self.health -= actual_damage
+        return f'Name: {self.name}\nHealth: {self.health}\nDamage: {self.damage}\nArmor: {self.armor}'
 
+    def take_damage(self, dmg):
+        actual_damage = dmg - self.armor
+        if actual_damage < 0: actual_damage = 0
+        if (self.health - actual_damage) < 0: self.health = 0
+        else: self.health -= actual_damage
+    
     def attack(self):
         return self.damage
-    
+
     def get_health(self):
         return self.health
-
-class Gobiln:
-
-
-    def __init__(self,id,):
+    
+    def get_name(self):
+        return self.name
+    
+    def get_all_attributes(self):
+        return self.name, self.health, self.damage, self.armor
+    
+class Goblin:
+    
+    def __init__(self, id):
         self.id = id
         self.health = 10
         self.damage = 3
         self.armor = 2
-
+    
     def __str__(self):
-        return f"ID: {self.id} \nHealth:{self.health}\nDamage:{self.damage}\nArmor{self.armor}  "
+        return f'ID: {self.id}\nHealth: {self.health}\nDamage: {self.damage}\nArmor: {self.armor}'
 
-    def take_damage(self,dmg):
+    def take_damage(self, dmg):
         actual_damage = dmg - self.armor
-        if (self.health - actual_damage) < 0:
-            self.health= 0
+        if actual_damage < 0: actual_damage = 0
+        if (self.health - actual_damage) < 0: self.health = 0
         else: self.health -= actual_damage
     
     def attack(self):
@@ -47,3 +52,26 @@ class Gobiln:
     
     def get_health(self):
         return self.health
+    
+    def get_name(self):
+        return f"Goblin #{self.id}"
+
+# functions
+def hello():
+    print("Hello World")
+    
+def save_character(character : Character):
+    """
+    Tar in karaktär, bryter ner dess attribut och sparar ner på fil.
+    Args:
+        character (Character): Det objekt som ska sparas ner på fil.
+    """
+    
+    name, health, damage, armor = character.get_all_attributes()
+    open("chars.txt", "x")
+    with open("chars.txt", "w", encoding="utf8") as f:
+        save_string = f"{name}/{health}/{damage}/{armor}\n"
+        f.write(save_string)
+        print(f"{name} has been successfully saved.")
+    
+# main code
