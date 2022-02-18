@@ -68,10 +68,22 @@ def save_character(character : Character):
     """
     
     name, health, damage, armor = character.get_all_attributes()
-    open("chars.txt", "x")
+    
     with open("chars.txt", "w", encoding="utf8") as f:
         save_string = f"{name}/{health}/{damage}/{armor}\n"
         f.write(save_string)
         print(f"{name} has been successfully saved.")
-    
+
+def load_characters():
+    with open("chars.txt","r", encoding="utf8") as f:
+        characters = []
+        for line in f.readlines():
+            attributes = line.split("/")
+            this_char= Character(attributes[0],
+                                 int(attributes[1]),
+                                 int(attributes[2]),
+                                 int(attributes[3]))
+            characters.append(this_char)
+    print("Characters has been loaded from file")
+    return characters
 # main code
